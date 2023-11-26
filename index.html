@@ -1,0 +1,71 @@
+ <!doctype html> <html class=no-js lang=""> <head> <meta charset=utf-8> <meta http-equiv=x-ua-compatible content="ie=edge"> <title>MTS Digital Player</title> <meta name=description content="MTS DIGITAL"> <meta name=viewport content="width=device-width,initial-scale=1"> <style>@import url(https://use.fontawesome.com/releases/v5.0.9/css/all.css);@import url(https://fonts.googleapis.com/css?family=Varela+Round);@font-face{font-family:customfont;src:url(MTSUltraExtended-Black.ttf)}body,html{height:100%}body{margin:0;padding:0;overflow:hidden;font-family:'Varela Round',sans-serif;color:#fff;background-image:linear-gradient(to right top,#eb032c,#f0022c,#f5022d,#fa012d,#ff002d)}a,a:active,a:hover,a:visited{color:#fff;text-decoration:none}footer{position:fixed;left:50%;bottom:10px;transform:translate(-50%,-50%);margin:0 auto;font-size:12px}#button{width:200px;height:200px;margin:-100px 0 auto -100px;position:absolute;left:50%;top:50%;text-align:center;line-height:215px;border-radius:50%;border:1px solid #ccc;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box}#logo-m,#logo-s,#logo-t{position:absolute;font-family:customfont,sans-serif;font-size:16vw;color:#fff;font-weight:700}#logo-m{top:2%;left:2%}#logo-t{top:2%;right:2%}#logo-s{bottom:8%;right:2%}@media screen and (max-width:768px){#logo-m,#logo-s,#logo-t{font-family:customfont,sans-serif;font-size:9vw}}.chat-container-1{position:fixed;left:2%;bottom:10px;width:27%;border:1px solid #ccc;border-radius:5px;overflow:auto;background-color:rgba(255,255,255,.1);margin-right:10px;display:flex;flex-direction:column;cursor:grab}#chat-container-1:hover{cursor:nwse-resize}@media screen and (max-width:768px){.chat-container-1{width:86%;left:5%}}.chat-box{height:300px;padding:10px;transition:height .5s;flex-grow:1}.chat-input{width:100%;padding:5px}.toggle-button{cursor:pointer;text-align:center;background-color:rgba(255,255,255,.1);border-top:1px solid #ccc;padding:5px}.toggle-icon{margin-right:5px}</style> </head> <body> <div id=logo-m>М</div> <div id=logo-t>Т</div> <div id=logo-s>С</div> <canvas id=renderer></canvas> <a href=# id=button><i id=icon class="fas fa-play fa-2x"></i></a> <audio id=audio src=https://ppr90.status-media.ru/ppr_90.mp3 preload=auto crossorigin=anonymous> Браузер не поддерживает <code>audio</code> element. </audio> <div class=chat-container-1 id=chat-container1> <div class=toggle-button onclick='toggleChatBox("chat-container1")'> <i class="toggle-icon fas fa-chevron-down"></i> Комната 1 </div> <div class=chat-box> </div> <input type=text class=chat-input placeholder="Введите свое сообщение..."> </div> <script> function addMessage(message, sender, containerId) {
+            const chatBox = document.getElementById(containerId).getElementsByClassName('chat-box')[0];
+            const messageDiv = document.createElement('div');
+            messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+            chatBox.appendChild(messageDiv);
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function sendMessage(containerId) {
+            const chatInput = document.getElementById(containerId).getElementsByClassName('chat-input')[0];
+            const message = chatInput.value;
+
+            addMessage(message, 'User', containerId);
+
+            // Clear the input field
+            chatInput.value = '';
+        }
+
+
+        /*
+        let isResizing = false;
+        let offsetX, offsetY;
+
+        const chatContainer = document.getElementById('chat-container');
+        const chatBox = document.getElementById('chat-box');
+
+        chatContainer.addEventListener('mousedown', (e) => {
+            if (e.target === chatContainer) {
+                isResizing = true;
+                offsetX = e.clientX - chatContainer.getBoundingClientRect().width;
+                offsetY = e.clientY - chatContainer.getBoundingClientRect().height;
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isResizing) {
+                const newWidth = e.clientX - offsetX;
+                const newHeight = e.clientY - offsetY;
+
+                chatContainer.style.width = `${Math.max(200, newWidth)}px`;
+                chatContainer.style.height = `${Math.max(200, newHeight)}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isResizing = false;
+        });
+*/
+        function toggleChatBox(containerId) {
+            const chatBox = document.getElementById(containerId).getElementsByClassName('chat-box')[0];
+            const toggleIcon = document.getElementById(containerId).getElementsByClassName('toggle-icon')[0];
+
+            if (chatBox.style.height === '0px' || chatBox.style.height === '') {
+                chatBox.style.height = '300px';
+                toggleIcon.className = 'fas fa-chevron-down';
+            } else {
+                chatBox.style.height = '0px';
+                toggleIcon.className = 'fas fa-chevron-up';
+            }
+        }
+
+        // Listen for Enter key press in the input field
+        document.querySelectorAll('.chat-input').forEach(function (input) {
+            input.addEventListener('keyup', function (event) {
+                if (event.key === 'Enter') {
+                    const containerId = input.closest('.chat-container-1').id;
+                    sendMessage(containerId);
+                }
+            });
+        }); </script> <footer> <a href="" target=_blank>Работает?</a> | <a href="" target=_blank>Не трогай!</a> | </footer> <script type="text/javascript" src="main.js"></script></body></html>
